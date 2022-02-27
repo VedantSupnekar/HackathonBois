@@ -72,7 +72,7 @@ centre_locations.sort_values(by=['minimum distance'], inplace=True)
 
 
 if score > 7:
-    print("You are being directed to hospitals and doctors near you, please make sure you get the necessary help immediately. We are also providing you with the necessary")
+    print("It is urgent that you get professional help. You are being directed to hospitals and doctors near you.")
     admit_locations = centre_locations.loc[centre_locations['Doctor Consultation AND ADMIT'] == 'Y']
     admits_list = admit_locations.values.tolist()
 elif 7>=score >=6 :
