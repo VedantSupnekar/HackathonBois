@@ -74,17 +74,22 @@ centre_locations.sort_values(by=['minimum distance'], inplace=True)
 if score > 7:
     print("You are being directed to hospitals and doctors near you, please make sure you get the necessary help immediately. We are also providing you with the necessary")
     admit_locations = centre_locations.loc[centre_locations['Doctor Consultation AND ADMIT'] == 'Y']
+    admits_list = admit_locations.values.tolist()
 elif 7>=score >=6 :
     print ("Must do a professional covid-19 test.You may be infected with covid-19. We will be accessing your devices information to help you find the nearest open covid testing center. ")
     testing_locations = centre_locations.loc[centre_locations['testing'] == 'Y']
+    testing_list = testing_locations.values.tolist()
 elif 5>=score>=4:
     print("You might be infected with covid-19. You need to do a take-at-home test.  We will be accessing your devices information to help you find the nearest store which will sell take-at-home covid tests")
     home_locations = centre_locations.loc[centre_locations['home testing'] == 'Y']
+    home_list = home_locations.values.tolist()
 elif contact == 1 :
     print("You must Isolate for 14 days and do a covid-19 test.We will be accessing your devices information to help you find the nearest open covid testing center")
+    
 elif 0< score =< 3:
     print("you must isolate yourself for 5 days, if no more symptoms then you are not infected. We will be accessing your devices information and providing you with information regarding where resources such as masks are available. ")
     mask_locations = centre_locations.loc[centre_locations['Masks'] == 'Y']
+    mask_list = mask_locations.values.tolist()
 else:
     print("Isolate for 7 days if no more symptoms then you are not infected")
     quit()
