@@ -49,41 +49,10 @@ contact = int(input("enter answer : "))
 
 # condition and next steps based on score
 
-if score > 7:
-    print("You are being directed to hospitals near you, please make sure you get admitted immediately")
-elif 7>=score >=4 :
-    print ("Must do a covid-19 test.You may be infected with covid-19. We will be accessing your devices information to help you find the nearest open covid testing center")
-    next_steps = 1
-elif 0< score =< 3:
-    print("you must isolate yourself for 5 days, if no more symptoms then you are not infected. We will be accessing your devices information and providing you with information regarding resources such as masks are available. ")
-else :
-    if contact == 1 :
-        print("You must Isolate for 14 days and do a covid-19 test.We will be accessing your devices information to help you find the nearest open covid testing center")
-    else :
-        print("Isolate for 7 days if no more symptoms then you are not infected")
-        quit()
-
-
-
+#declaring database and pulling data from local csv file
 centre_locations = pd.read_csv("total_database1.csv")
 #print(centre_locations)
 
-import phonenumbers
-from phonenumbers import geocoder
-
-key = "06a067a51a8b4290b8678be0c5b1ab4f"
-
-n = phonenumbers.parse(number)
-l = geocoder.description_for_number(n, "en")
-print(l)
-
-from opencage.geocoder import OpenCageGeocode
-geocoder = OpenCageGeocode(key)
-query = str(l)
-result = geocoder.geocode(query)
-lat = result[0]['geometry']['lat']
-lng = result[0]['geometry']['lng']
-print(lat,lng)
 
 
 min_dist = []
@@ -101,10 +70,27 @@ centre_locations['minimum distance'] = min_dist
 centre_locations.sort_values(by=['minimum distance'], inplace=True)
 
 
-admit_locations = centre_locations.loc[centre_locations['Doctor Consultation AND ADMIT'] == 'Y']
-vaccine_locations = centre_locations.loc[centre_locations['Vaccine Available'] == 'Y']
-mask_locations = centre_locations.loc[centre_locations['Masks'] == 'Y']
-testing_locations = centre_locations.loc[centre_locations['testing'] == 'Y']
-home_locations = centre_locations.loc[centre_locations['home testing'] == 'Y']
 
-print(testing_locations)
+if score > 7:
+    print("You are being directed to hospitals and doctors near you, please make sure you get the necessary help immediately. We are also providing you with the necessary")
+    admit_locations = centre_locations.loc[centre_locations['Doctor Consultation AND ADMIT'] == 'Y']
+elif 7>=score >=6 :
+    print ("Must do a professional covid-19 test.You may be infected with covid-19. We will be accessing your devices information to help you find the nearest open covid testing center. ")
+    testing_locations = centre_locations.loc[centre_locations['testing'] == 'Y']
+elif 5>=score>=4:
+    print("You might be infected with covid-19. You need to do a take-at-home test.  We will be accessing your devices information to help you find the nearest store which will sell take-at-home covid tests")
+    home_locations = centre_locations.loc[centre_locations['home testing'] == 'Y']
+elif contact == 1 :
+    print("You must Isolate for 14 days and do a covid-19 test.We will be accessing your devices information to help you find the nearest open covid testing center")
+elif 0< score =< 3:
+    print("you must isolate yourself for 5 days, if no more symptoms then you are not infected. We will be accessing your devices information and providing you with information regarding where resources such as masks are available. ")
+    mask_locations = centre_locations.loc[centre_locations['Masks'] == 'Y']
+else:
+    print("Isolate for 7 days if no more symptoms then you are not infected")
+    quit()
+
+
+
+
+
+
